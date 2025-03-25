@@ -13,6 +13,18 @@ export function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const {contents, refresh} = useContent();
 
+  async function deleteItem(id: string) {
+    await axios.delete(`${BACKEND_URL}/api/v1/content`,{
+        data : {
+            contentId: id
+        },
+        headers: {
+            "Authorization": localStorage.getItem("token")
+        }
+    });
+    refresh();
+  }
+  
   useEffect(() => {
     refresh();
   }, [modalOpen])
@@ -41,10 +53,12 @@ export function Dashboard() {
       </div>
 
       <div className="flex gap-4 flex-wrap">
-        {contents.map(({type, link, title}) => <Card 
+        {contents.map(({_id ,type, link, title }) => <Card
+            id = {_id} 
             type={type}
             link={link}
             title={title}
+            deleteItem = {deleteItem}
         />)}
       </div>
     </div>

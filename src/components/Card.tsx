@@ -1,12 +1,18 @@
+
+import { CrossIcon } from "../icons/CrossIcon";
 import { ShareIcon } from "../icons/ShareIcon";
+
 
 interface CardProps {
     title: string;
     link: string;
     type: "twitter" | "youtube";
+    id: string,
+    deleteItem :(id: string) => Promise<void>; 
 }
 
-export function Card({title, link, type}: CardProps) {
+export function Card({ id , title, link, type , deleteItem }: CardProps) {
+   
     return <div>
         <div className="p-4 bg-white rounded-md border-gray-200 max-w-72  border min-h-48 min-w-72">
             <div className="flex justify-between">
@@ -23,7 +29,7 @@ export function Card({title, link, type}: CardProps) {
                         </a>
                     </div>
                     <div className="text-gray-500">
-                        <ShareIcon />
+                        <div onClick={() => deleteItem(id)}><CrossIcon /></div>
                     </div>
                 </div>
             </div>

@@ -13,18 +13,11 @@ export function useContent() {
         })
             .then((response) => {
                 setContents(response.data.content)
-            })
+        })
     }
 
     useEffect(() => {
-        refresh()
-        let interval = setInterval(() => {
-            refresh()
-        }, 10 * 1000)
-
-        return () => {
-            clearInterval(interval);
-        }
+        refresh();
     }, [])
 
     return {contents, refresh};
