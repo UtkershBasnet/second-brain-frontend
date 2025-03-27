@@ -1,24 +1,10 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { BACKEND_URL } from "../config";
+import { useContext } from "react";
+import { ContentContext } from "../context/ContentProvider";
 
 export function useContent() {
-    const [contents, setContents] = useState([]);
-
-    function refresh() {
-        axios.get(`${BACKEND_URL}/api/v1/content`, {
-            headers: {
-                "Authorization": localStorage.getItem("token")
-            }
-        })
-            .then((response) => {
-                setContents(response.data.content)
-        })
+    const context = useContext(ContentContext);
+    if (!context) {
+        throw new Error("useContent must be used within a ContentProvider");
     }
-
-    useEffect(() => {
-        refresh();
-    }, [])
-
-    return {contents, refresh};
+    return context;
 }
